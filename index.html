@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HANGMAN GAME</title>
+    <style>
+        body {
+            background-color: rgb(160, 94, 185);
+        }
+        
+        #wordtoGuess,
+        #wrongGuesses,
+        #guessesLeft,
+        #wins,
+        #losses {
+            font-size: 16px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="jumbotron jumbotron-fluid">
+            <div class="container ">
+                <h2 class="display-4">Coding Bootcamp - Hangman</h2>
+
+                <h3>Guess the name of students from class!</h3>
+                <br>
+                <small>Click any letter to begin...<small>
+            </div>
+
+        </div>
+
+
+        <div class="card font-weight-bold mt-3">
+            <div class="card-header"id="wordtoGuess">
+                Word to Guess
+            </div>
+            <div class="card-body">
+                <blockquote class="blockquote mb-0">
+                    <p id="wordBlanks">_ _ _ _ _ _ _ _ _</p>
+
+                </blockquote>
+            </div>
+        </div>
+
+        <div class="card font-weight-bold mt-3">
+            <div class="card-header bg-white"id="wrongGuesses">
+                Wrong Guesses:
+            </div>
+        </div>
+        <div class="card font-weight-bold mt-3">
+            <div class="card-header bg-white"id="guesses_left">
+                Guesses Left: 9
+            </div>
+        </div>
+        <div class="card font-weight-bold mt-3">
+            <div class="card-header bg-white"id="wins">
+                Wins: 0
+            </div>
+        </div>
+        <div class="card font-weight-bold mt-3">
+            <div class="card-header bg-white"id="losses">
+                Losses: 0
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        var studentNames = [
+            "khanum",
+            "sabina",
+            "akif",
+            "murad",
+            "emil",
+            "xayyam",
+            "xayal",
+            "yashar"
+            ];
+
+        var studentName= "";
+        var lettersInStudentName=[];
+        var wrongGuesses = []        
+        var blanksAndSuccesses=[]
+        var numBlanks = 0;
+        var wins = 0
+        var loss = 0
+        var guessesLeft = 9;        
+
+
+        function newGame() {
+            guessesLeft = 9;
+            studentName= studentNames[Math.floor(Math.random() * studentNames.length)];
+            lettersInStudentName = studentName.split("");
+            numBlanks = lettersInStudentName.length;
+            console.log(studentName);
+            blanksAndSuccesses = [];
+            wrongGuesses = [];
+
+            for (var i = 0; i < numBlanks; i++) {
+            blanksAndSuccesses.push("_");
+            }
+
+            console.log(blanksAndSuccesses);
+
+            document.getElementById("guesses_left").innerHTML ="Guesses Left: " + guessesLeft;
+            document.getElementById("wordBlanks").innerHTML = blanksAndSuccesses.join(" ");
+            document.getElementById("wrongGuesses").innerHTML ="Wrong Guesses: " + wrongGuesses.join(' ');
+            }       
+            
+            
+             function checkLetters (letter) {
+                var letterInWord = false;
+                for (var i = 0; i < numBlanks; i++){
+                    if (studentName[i] === letter) {
+                        letterInWord = true;
+                }
+            }
+
+                if (letterInWord) {
+                    for (var j = 0; j < numBlanks; j++) {
+                        if (studentName[j] === letter){
+                            blanksAndSuccesses[j] = letter;
+                        }
+
+                    }
+                    console.log(blanksAndSuccesses);
+      
+            }
+            else{
+                wrongGuesses.push(letter)
+                guessesLeft--;
+            }
+       } 
+
+        function roundComplete() {
+            console.log("kk")
+
+              console.log("Wins: " + wins + " | Losses: " + loss + " | Guesses left: " + guessesLeft);
+              document.getElementById("guesses_left").innerHTML ="Guesses Left: " + guessesLeft;
+              document.getElementById("wordBlanks").innerHTML = blanksAndSuccesses.join(" ");
+              document.getElementById("wrongGuesses").innerHTML ="Wrong Guesses: " + wrongGuesses.join(' ');
+
+
+             if (lettersInStudentName.toString() === blanksAndSuccesses.toString()) {
+                 wins++ ;
+                 newGame();   
+                 alert("You win!"); 
+                 newGame();
+                    document.getElementById("wins").innerHTML ="Wins " + wins;
+                    newGame();
+     }
+         else if (guessesLeft === 0) { 
+          loss++;  
+               alert("Game Over!"); 
+             document.getElementById("losses").innerHTML ="Losses " + loss;  
+                     newGame();
+      }
+        }
+        newGame();
+       
+            document.onkeyup = function(event) {
+            var letterGuessed = String.fromCharCode(event.which).toLowerCase();
+            checkLetters(letterGuessed);
+            roundComplete();
+      };        
+    </script>
+</body>
+</html>
