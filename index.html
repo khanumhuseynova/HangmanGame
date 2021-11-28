@@ -140,9 +140,8 @@
        } 
 
         function roundComplete() {
-            console.log("kk")
-
-              console.log("Wins: " + wins + " | Losses: " + loss + " | Guesses left: " + guessesLeft);
+           
+              console.log("Wins: " + wins + " //// Losses: " + loss + " /// Guesses left: " + guessesLeft);
               document.getElementById("guesses_left").innerHTML ="Guesses Left: " + guessesLeft;
               document.getElementById("wordBlanks").innerHTML = blanksAndSuccesses.join(" ");
               document.getElementById("wrongGuesses").innerHTML ="Wrong Guesses: " + wrongGuesses.join(' ');
